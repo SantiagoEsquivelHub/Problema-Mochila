@@ -11,55 +11,40 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
             if (j === 0) {
                 resultados_maximos[i][j] = 0;
             } else if (j === 1) {
-                resultados_maximos[i][j] = T[i - 1] + resultados_maximos[i - 1][j]
+                resultados_maximos[i][j] = T[i - 1]
             } else if (j > i) {
                 resultados_maximos[i][j] = resultados_maximos[i][j - 1]
             } else {
+                /* if (i % j === 0) {
+                    resultados_maximos[i][j] =
+                        Math.max(
+                            resultados_maximos[i][j - 1] + resultados_maximos[i - 1][j],
+                            resultados_maximos[i][j - 1] * i
+                        )
+                } else {
+                    resultados_maximos[i][j] = resultados_maximos[i][j - 1] + resultados_maximos[i - 1][j]
 
-                // let max = (resultados_maximos[i - 1][j] + T[i - 1])
-                let max = 0
+                } */
+                console.log(T[i])
+                let rendimiento_max = Math.max(resultados_maximos[i - 1][j - 1], resultados_maximos[i][j - 1]) === resultados_maximos[i - 1][j - 1]
+                    ? T[i - 2]
+                    : T[i - 1]
 
-                for (let k = i; k > i - j; k--) {
-                    /* console.log("k: ", k)
-                    console.log("i: ", i)
-                    console.log("j: ", j) */
+                resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + resultados_maximos[i][j - 1], resultados_maximos[i][j - 1] + T[i - 1])
 
-
-
-                    let arr = T.slice((k - 1), i)
-                    let maxArr = Math.max(...arr)
-                    let result = maxArr * arr.length
-
-
-                    /* 
-                                        console.log("arr: ", arr)
-                                        console.log("maxArr: ", maxArr)
-                                        console.log("result: ", result)
-                                        console.log("resultados_maximos[i - 1][j]: ", resultados_maximos[i - 1][j])
-                                        console.log("T[i - 1]: ", T[i - 1])
-                                        console.log("resultados_maximos[i - 1][j] + T[i - 1]: ", resultados_maximos[i - 1][j] + T[i - 1]) */
-
-
-                    max = Math.max(max, result);
-
-                    // max = Math.max(max, result + resultados_maximos[i - 2][j]);
-
-
-                }
-
-
-
-                resultados_maximos[i][j] = max
+                //Falta encontrar el maximo entre los rendimientos encontrados
             }
 
         }
     }
     /* BMAX(I,J)= MAX( BMAX(I,J-1),
     BMAX(I-W(J), j-1) + B(J) ) */
-    // console.log("resultados_maximos: ", resultados_maximos)
+    console.log("resultados_maximos: ", resultados_maximos)
 }
 
-const T = [1, 15, 7, 9, 2];
+const T = [1, 15, 7, 9, 2, 5, 10];
+const K = 3
+const N = T.length
 // const T = [1, 15, 7];
 
 
