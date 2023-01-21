@@ -4,14 +4,14 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
     /* Llenamos cada una de las posiciones del primer arreglo (N + 1) con 0 o cualquier elemento, y luego recorremos todos esos elementos y los reemplazamos con 
     un arreglo (K + 1) y lo rellenamos con 0*/
     const resultados_maximos = new Array(N + 1).fill(0).map(() => new Array(K + 1).fill(0));
-
+    let maximo_viejo = 0
     // Rellenamos el arreglo
     for (let i = 1; i <= N; i++) {
         for (let j = 1; j <= K; j++) {
             if (j === 0) {
                 resultados_maximos[i][j] = 0;
             } else if (j === 1) {
-                resultados_maximos[i][j] = T[i - 1]
+                resultados_maximos[i][j] = T[i - 1] + resultados_maximos[i - 1][j]
             } else if (j > i) {
                 resultados_maximos[i][j] = resultados_maximos[i][j - 1]
             } else {
@@ -25,14 +25,61 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
                     resultados_maximos[i][j] = resultados_maximos[i][j - 1] + resultados_maximos[i - 1][j]
 
                 } */
-                console.log(T[i])
-                let rendimiento_max = Math.max(resultados_maximos[i - 1][j - 1], resultados_maximos[i][j - 1]) === resultados_maximos[i - 1][j - 1]
-                    ? T[i - 2]
-                    : T[i - 1]
+                /*    console.log(T[i])
+                   let rendimiento_max = Math.max(resultados_maximos[i - 1][j - 1], resultados_maximos[i][j - 1]) === resultados_maximos[i - 1][j - 1]
+                       ? T[i - 2]
+                       : T[i - 1]
+   
+                   resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + resultados_maximos[i][j - 1], resultados_maximos[i][j - 1] + T[i - 1]) */
 
-                resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + resultados_maximos[i][j - 1], resultados_maximos[i][j - 1] + T[i - 1])
+                if (i % j === 0) {
+                    //La cantidad de trabajadores es igual a la cantidad maxima de trabajadores por grupo
 
-                //Falta encontrar el maximo entre los rendimientos encontrados
+                    /* Sacamos el maximo entre:
+                     (Tomar el rendimiento maximo de tomar al nuevo rendimiento y sumarcelo al anterior) 
+                     y
+                    (Calcular el maximo de nuevo y nivelar los niveles bajos) */
+
+                    let nuevo_maximo = 0
+                    let rango = i <= j ? 0 : i - j
+                    // console.log("rango: ", rango)
+
+                    for (let k = rango; k < i; k++) {
+                        nuevo_maximo = T[k] > nuevo_maximo ? T[k] : nuevo_maximo
+                    }
+
+                    maximo = nuevo_maximo
+                    //  console.log(`nuevo_maximo * ${j}: `, nuevo_maximo * j)
+                    resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - j][j] + nuevo_maximo * j)
+
+                    console.log(`rango: `, rango)
+                    console.log(`nuevo_maximo * ${j}: `, nuevo_maximo * j)
+
+                } else {
+                    //La cantidad de trabajadores NO es igual a la cantidad maxima de trabajadores por grupo
+                    console.log("maximo_viejo: ", maximo_viejo)
+
+                    let nuevo_maximo = 0
+                    let rango = i % j
+                    console.log(`${i} mod ${j} `, i % j)
+
+                    for (let k = rango; k < i; k++) {
+                        nuevo_maximo = T[k] > nuevo_maximo ? T[k] : nuevo_maximo
+                    }
+                    console.log("nuevo_maximo: ", nuevo_maximo)
+                    maximo = nuevo_maximo
+
+
+
+                    if (rango <= 1) {
+                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], nuevo_maximo)
+                    } else {
+                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - rango][j] + nuevo_maximo * rango)
+                    }
+
+                }
+
+
             }
 
         }
