@@ -40,42 +40,71 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
                      y
                     (Calcular el maximo de nuevo y nivelar los niveles bajos) */
 
+                    console.log(`${i},${j}`)
+                    console.log("maximo_viejo: ", maximo_viejo)
+
                     let nuevo_maximo = 0
                     let rango = i <= j ? 0 : i - j
-                    // console.log("rango: ", rango)
+                    console.log("rango: ", rango)
 
                     for (let k = rango; k < i; k++) {
                         nuevo_maximo = T[k] > nuevo_maximo ? T[k] : nuevo_maximo
                     }
 
-                    maximo = nuevo_maximo
-                    //  console.log(`nuevo_maximo * ${j}: `, nuevo_maximo * j)
-                    resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - j][j] + nuevo_maximo * j)
+                    console.log("resultados_maximos[i - j][j]: ", resultados_maximos[i - j][j])
+                    console.log("T[i - 1]: ", T[i - 1])
+                    maximo_viejo = nuevo_maximo
 
-                    console.log(`rango: `, rango)
-                    console.log(`nuevo_maximo * ${j}: `, nuevo_maximo * j)
+                  
+
+                    if (rango <= 1) {
+                        console.log(`nuevo_maximo * ${(i - (i - j))}: `, nuevo_maximo * (i - (i - j)))
+                        console.log("resultados_maximos[i - 1][j] + T[i - 1]: ", resultados_maximos[i - 1][j] + T[i - 1])
+                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - j][j] + nuevo_maximo * (i - (i - j)))
+                    }else{
+                        console.log("resultados_maximos[i - rango][j]: ", resultados_maximos[i - rango][j])
+                        console.log(`nuevo_maximo * ${rango}: `, nuevo_maximo * rango)
+                        console.log("resultados_maximos[i - 1][j] + T[i - 1]: ", resultados_maximos[i - 1][j] + T[i - 1])
+                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - rango][j] + nuevo_maximo * rango)
+                    }
+
+
+                    /* console.log(`rango: `, rango)
+                    console.log(`nuevo_maximo * ${j}: `, nuevo_maximo * j) */
 
                 } else {
                     //La cantidad de trabajadores NO es igual a la cantidad maxima de trabajadores por grupo
+                    console.log(`${i},${j}`)
+                    console.log(`${i} mod ${j}`, i % j)
                     console.log("maximo_viejo: ", maximo_viejo)
 
                     let nuevo_maximo = 0
                     let rango = i % j
-                    console.log(`${i} mod ${j} `, i % j)
+                    // console.log(`${i} mod ${j} `, i % j)
 
-                    for (let k = rango; k < i; k++) {
+                    for (let k = i - j; k < i; k++) {
                         nuevo_maximo = T[k] > nuevo_maximo ? T[k] : nuevo_maximo
                     }
                     console.log("nuevo_maximo: ", nuevo_maximo)
-                    maximo = nuevo_maximo
+                    console.log("rango: ", rango)
 
 
 
-                    if (rango <= 1) {
-                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], nuevo_maximo)
+                    if (maximo_viejo < nuevo_maximo) {
+                        console.log("entrooo: ")
+                        console.log("resultados_maximos[i - j][j]", resultados_maximos[i - j][j])
+                        console.log("(i - (i - j)): ", (i - (i - j)))
+                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - j][j] + nuevo_maximo * (i - (i - j)))
+
                     } else {
-                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - rango][j] + nuevo_maximo * rango)
+                        if (rango <= 1) {
+                            resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], nuevo_maximo)
+                        } else {
+                            resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], resultados_maximos[i - rango][j] + nuevo_maximo * rango)
+                        }
+                        maximo_viejo = nuevo_maximo
                     }
+
 
                 }
 
@@ -89,7 +118,11 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
     console.log("resultados_maximos: ", resultados_maximos)
 }
 
-const T = [1, 15, 7, 9, 2, 5, 10];
+ const T = [1, 15, 7, 9, 2, 5, 10]; //84
+// const T = [1, 15, 7, 10, 2, 5, 10]; //85
+// const T = [10, 20, 7, 1, 2, 5, 1]; //85
+// const T = [10, 20, 7, 1]; //70
+// const T = [10, 20, 7, 1, 2, 5]; //70
 const K = 3
 const N = T.length
 // const T = [1, 15, 7];
