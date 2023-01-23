@@ -5,7 +5,7 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
 
     // Rellenamos el arreglo
     for (let i = 1; i <= N; i++) {
-        posicion = i
+        posicion = 1
         maximo = T[i - 1]
 
         for (let j = 1; j <= K; j++) {
@@ -16,43 +16,34 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
             } else if (j > i) {
                 resultados_maximos[i][j] = resultados_maximos[i][j - 1]
             } else if (T[i]) {
-                /* console.log("Math.max(T.slice(0, 3)): ", Math.max(...T.slice(i - j - 1, i)))
-                console.log("T.slice(i - j - 1, i).length: ", T.slice(i - j - 1, i).length) */
-                // resultados_maximos[i][j] = Math.max(resultados_maximos[i - 1][j] + T[i - 1], Math.max(...T.slice(i - j - 1, i)) * T.slice(i - j - 1, i).length)
-                /*  resultados_maximos[i][j] = Math.max(
-                     resultados_maximos[i - 1][j],
-                     T[i - 1] + resultados_maximos[i - 1][j - T[i - 1]]) */
 
-                console.log("----------------------------------------")
-                /*  console.log(`${T[i - 1]} > ${T[i]}: `, T[i - 1] > T[i])
-                 console.log("posicion: ", posicion)
-                 console.log("maximo: ", maximo)
-                 console.log("T[i]: ", T[i])
-                 console.log("j - 1: ", j - 1) */
-                console.log("----------------------------------------")
-
-                /*  if (posicion <= j) {
-                     if (maximo > T[i]) {
-                         resultados_maximos[i][j] = maximo * posicion
-                     } else {
- 
-                         resultados_maximos[i][j] = resultados_maximos[i - 1][j] + T[i - 1]
-                     }
-                 } else { */
-                posicion = 1
+                /* console.log("----------------------------------------")
+                   console.log(`${T[i - 1]} > ${T[i]}: `, T[i - 1] > T[i])
+                  console.log("posicion: ", posicion)
+                  console.log("maximo: ", maximo)
+                  console.log("T[i]: ", T[i])
+                  console.log("j - 1: ", j - 1) 
+                 console.log("----------------------------------------")*/
+                // posicion = 1
                 if (maximo > T[i]) {
                     console.log("entre if 1 posicion: ", posicion)
                     posicion++
                     resultados_maximos[i][j] = resultados_maximos[i - posicion][j] + maximo * posicion
                 } else {
+                    /* console.log("posicion: ", posicion)
+                    console.log("j: ", j) */
                     if (posicion <= j) {
-
-                        maximo = T[i]
                         posicion++
-
+                        console.log("----------------------------------------")
+                        console.log(`${i}, ${j} `)
+                        console.log("maximo: ", maximo)
+                        console.log("posicion: ", posicion)
+                        console.log("resultados_maximos[i - posicion][j]: ", resultados_maximos[i - posicion][j] )
+                        console.log("----------------------------------------")
+                        
                         resultados_maximos[i][j] = Math.max(resultados_maximos[i - posicion][j] + maximo * posicion, resultados_maximos[i - 1][j] + T[i - 1])
-
-                    } else {
+                        maximo = T[i]
+                    } /* else {
                         maximo = T[i]
                         posicion = 1
                         console.log("----------------------------------------")
@@ -63,7 +54,7 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
                         console.log("----------------------------------------")
 
                         resultados_maximos[i][j] = Math.max(resultados_maximos[i - posicion][j] + maximo * posicion, resultados_maximos[i - 1][j] + T[i - 1])
-                    }
+                    } */
                     /* maximo = T[i]
                     console.log("entre if 2 posicion: ", posicion)
                     posicion++
