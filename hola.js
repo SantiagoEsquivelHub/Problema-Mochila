@@ -1,3 +1,14 @@
+const mayorDeArreglo = (inicio, final, arreglo) => {
+    let mayor = 0
+    for (let i = inicio; i < final; i++) {
+        if (arreglo[i + 1] && arreglo[i] > arreglo[i + 1]) {
+            mayor = arreglo[i]
+        }
+    }
+    return mayor
+}
+
+
 const formarGrupos = (N = 0, K = 0, T = []) => {
     const resultados_maximos = new Array(N + 1).fill(0).map(() => new Array(K + 1).fill(0));
     let maximo = 0
@@ -38,9 +49,9 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
                         console.log(`${i}, ${j} `)
                         console.log("maximo: ", maximo)
                         console.log("posicion: ", posicion)
-                        console.log("resultados_maximos[i - posicion][j]: ", resultados_maximos[i - posicion][j] )
+                        console.log("resultados_maximos[i - posicion][j]: ", resultados_maximos[i - posicion][j])
                         console.log("----------------------------------------")
-                        
+
                         resultados_maximos[i][j] = Math.max(resultados_maximos[i - posicion][j] + maximo * posicion, resultados_maximos[i - 1][j] + T[i - 1])
                         maximo = T[i]
                     } /* else {
@@ -92,4 +103,5 @@ const N = T.length
 
 const result = formarGrupos(N, K, T)
 // maxRendimiento(N, K, T)
+// console.log("mayor: ", mayorDeArreglo(0, 2, T))
 
