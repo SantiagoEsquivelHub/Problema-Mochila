@@ -11,14 +11,16 @@ const mayorDeArreglo = (inicio, final, arreglo) => {
 
 const formarGrupos = (N = 0, K = 0, T = []) => {
     const resultados_maximos = new Array(N + 1).fill(0).map(() => new Array(K + 1).fill(0));
-    let maximo = 0
+    let maximo = T[0]
     let posicion = 0
-
+    let mayor_arreglo = 0
+    let indices_inicio = []
+    let indices_salida = []
     // Rellenamos el arreglo
     for (let i = 1; i <= N; i++) {
         posicion = 1
-        maximo = T[i - 1]
-
+        // maximo = T[i - 1]
+        indices_inicio.push(1)
         for (let j = 1; j <= K; j++) {
             if (j === 0) {
                 resultados_maximos[i][j] = 0;
@@ -28,16 +30,15 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
                 resultados_maximos[i][j] = resultados_maximos[i][j - 1]
             } else if (T[i]) {
 
-                /* console.log("----------------------------------------")
-                   console.log(`${T[i - 1]} > ${T[i]}: `, T[i - 1] > T[i])
-                  console.log("posicion: ", posicion)
-                  console.log("maximo: ", maximo)
-                  console.log("T[i]: ", T[i])
-                  console.log("j - 1: ", j - 1) 
-                 console.log("----------------------------------------")*/
-                // posicion = 1
-                if (maximo > T[i]) {
+                mayor_arreglo = mayorDeArreglo(posicion, i, T)
+                    console.log("maximo: ", maximo)
+                    console.log("mayor_arreglo: ", mayor_arreglo)
+
+                if (maximo > mayor_arreglo) {
+                    
+                    console.log(`${i}, ${j} `)
                     console.log("entre if 1 posicion: ", posicion)
+                    console.log("mayor_arreglo: ", mayor_arreglo)
                     posicion++
                     resultados_maximos[i][j] = resultados_maximos[i - posicion][j] + maximo * posicion
                 } else {
@@ -52,8 +53,9 @@ const formarGrupos = (N = 0, K = 0, T = []) => {
                         console.log("resultados_maximos[i - posicion][j]: ", resultados_maximos[i - posicion][j])
                         console.log("----------------------------------------")
 
-                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - posicion][j] + maximo * posicion, resultados_maximos[i - 1][j] + T[i - 1])
-                        maximo = T[i]
+                        resultados_maximos[i][j] = Math.max(resultados_maximos[i - posicion][j] + (mayor_arreglo * posicion), resultados_maximos[i - 1][j] + T[i - 1])
+                        maximo = mayor_arreglo
+                        indices_salida.push(j)
                     } /* else {
                         maximo = T[i]
                         posicion = 1
