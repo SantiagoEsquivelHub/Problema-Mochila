@@ -20,7 +20,7 @@ const maximizarTapabojas = (N, T, P) => {
     console.log("tapabocas_maximos: ", tapabocas_maximos)
 }
 
-const P = 20
+const P = 14
 const T = [20, 16, 2]
 const C = [6, 18, 5]
 const N = T.length

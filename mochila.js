@@ -70,7 +70,3 @@ const mochila = (pesoMaximo = 0, pesos = [], beneficios = []) => {
 const maxWeight = 20;
 const weights = [7, 5, 6, 8];
 const benefits = [3, 2, 1, 4];
-
-mochila(maxWeight, weights, benefits);
-
-
